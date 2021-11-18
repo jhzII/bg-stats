@@ -1,0 +1,16 @@
+{% extends "./basic.html" %}
+
+{% block content %}
+<p>Результаты:</p>
+<ul class="list-group">
+    {% for match in matches %}
+        <li class="list-group-item">
+            <div>{{ match.game.name }}</div>
+            <div>{{ match.timestamp }}</div>
+            {% for winner in match.winners %}
+                <div>{{ winner.username }}</div>
+            {% endfor %}
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

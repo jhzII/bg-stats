@@ -23,12 +23,12 @@ class Game(models.Model):
 
 
 class Match(models.Model):
-    game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name='Игра')
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name='Игра', related_name='matches')
     duration = models.DurationField(verbose_name='Продолжительность игры')
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время проведения')
 
 
 class MemberList(models.Model):
-    match = models.ForeignKey(Match, on_delete=models.CASCADE, verbose_name='Матч')
-    member = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Участник')
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, verbose_name='Матч', related_name='members')
+    member = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Участник', related_name='matches')
     place = models.PositiveSmallIntegerField(verbose_name='Место')
