@@ -1,15 +1,17 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
-class User(models.Model):
-    username = models.CharField(max_length=50, unique=True, verbose_name='Имя пользователя')
-    login = models.EmailField(unique=True, verbose_name='Email')
-    fname = models.CharField(max_length=50, verbose_name='Имя')
-    lname = models.CharField(max_length=50, verbose_name='Фамилия')
-    date_of_birth = models.DateField(blank=True, verbose_name='Дата рождения')
+class Profile(models.Model):
+    user = models.OneToOneField(User, verbose_name='Пользователь', on_delete=models.CASCADE)
     image = models.ImageField(blank=True, verbose_name='Изображение')
     # todo: whitelist
     # todo: blacklist
+
+    def __str__(self):
+        return f'{self.user.username} ({self.user.first_name} {self.user.last_name})'
 
 
 class Game(models.Model):
@@ -21,14 +23,24 @@ class Game(models.Model):
     image = models.ImageField(verbose_name='Изображение')
     # todo: rating
 
+    def __str__(self):
+        return self.name
+
 
 class Match(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, verbose_name='Игра', related_name='matches')
     duration = models.DurationField(verbose_name='Продолжительность игры')
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время проведения')
 
+    def __str__(self):
+        # todo формат дата
+        return f'{self.game.name} ({self.timestamp})'
 
-class MemberList(models.Model):
+
+class Member(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE, verbose_name='Матч', related_name='members')
-    member = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Участник', related_name='matches')
+    player = models.ForeignKey(Profile, on_delete=models.PROTECT, verbose_name='Участник', related_name='matches')
     place = models.PositiveSmallIntegerField(verbose_name='Место')
+
+    def __str__(self):
+        return f'{self.player.user.username} - {self.match.game.name} ({self.place})'
