@@ -1,0 +1,7 @@
+.games_game {
+    display: flex;
+}
+
+.games_game img {
+    max-height: 200px;
+}

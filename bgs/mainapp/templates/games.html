@@ -1,0 +1,24 @@
+{% extends "./basic.html" %}
+
+{% block title %}Игры{% endblock %}
+{% block nav-games %}active{% endblock %}
+
+{% block content %}
+<div class="games">
+    <ul class="list-group">
+        {% for game in games %}
+            <li class="list-group-item">
+                <div class="games_game">
+                <div>
+                    <img src="{{ game.image.url }}">
+                </div>
+                <div>
+                    <h4><a href="{% url 'game' game.slug %}" >{{ game.name }}</a></h4>
+                    <div>{{ game.description }}</div>
+                </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

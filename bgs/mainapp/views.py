@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from .models import Match
+from django.views.generic.list import ListView
+from .models import Match, Game
 
 
 def index(request):
@@ -9,7 +10,7 @@ def index(request):
         winners = []
         for member in match.members.all():
             if member.place == 1:
-                winners.append(member.member)
+                winners.append(member.player)
 
         matches.append({
             'game': match.game,
@@ -22,3 +23,16 @@ def index(request):
     }
 
     return render(request, './index.html', context)
+
+
+class GamesView(ListView):
+    model = Game
+    template_name = './games.html'
+    context_object_name = 'games'
+
+
+# fixme временно, чтобы работали ссылки
+class GameView(ListView):
+    model = Game
+    template_name = './games.html'
+    context_object_name = 'games'
