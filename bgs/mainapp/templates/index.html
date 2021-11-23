@@ -10,7 +10,7 @@
             <div>{{ match.game.name }}</div>
             <div>{{ match.timestamp }}</div>
             {% for winner in match.winners %}
-                <div>{{ winner.username }}</div>
+                <div>{{ winner.user.username }}</div>
             {% endfor %}
         </li>
     {% endfor %}

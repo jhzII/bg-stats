@@ -1,0 +1,67 @@
+{% extends "./basic.html" %}
+
+{% block title %}{{ game.name }}{% endblock %}
+
+{% block content %}
+<div class="game">
+    <div class="game_about">
+        <div>
+            <img src="{{ game.image.url }}">
+        </div>
+        <div>
+            <h4><a href="{% url 'game' game.slug %}" >{{ game.name }}</a></h4>
+            <div>{{ game.description }}</div>
+            <div>Количество игроков: {{ game.players }}</div>
+            {% if game.rules %}
+                <h5>Уточнения по правилам:</h5>
+                <div>{{ game.rules }}</div>
+            {% endif %}
+        </div>
+    </div>
+    {% if matches %}
+        <div class="game__recent_games">
+            <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Победитель</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for match in matches %}
+                <tr>
+                    <th>{{ match.timestamp }}</th>
+                    <td>
+                        {% for winner in match.winners %}
+                            <span>{{ winner.user.username }}</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+<!--    <div class="game__stats">-->
+<!--        <table class="table table-striped">-->
+<!--        <thead>-->
+<!--            <tr>-->
+<!--                <th scope="col">Игрок</th>-->
+<!--                <th scope="col">Игр</th>-->
+<!--                <th scope="col">Побед</th>-->
+<!--            </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        {% for player in players %}-->
+<!--            <tr>-->
+<!--                <th>{{ Имя }}</th>-->
+<!--                <td>{{ Игр }}</td>-->
+<!--                <td>{{ Побед }}</td>-->
+<!--            </tr>-->
+<!--        {% endfor %}-->
+<!--        </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+</div>
+{% endblock %}
